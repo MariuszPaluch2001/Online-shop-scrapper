@@ -14,6 +14,9 @@ class Generic_URL:
     def create_page_url(self ,query ,page_index):
         raise NotImplementedError
         
+    def fill_space_in_query(self, query, filler):
+        return "".join(word + filler for word in query.split())[:-1]
+        
 class Cen_URL(Generic_URL):
     
     MAIN_URL = "https://www.ceneo.pl/"
@@ -36,3 +39,9 @@ class Cen_URL(Generic_URL):
         suffix = self.create_page_suffix(query, page_index)
 
         return self.concat_url(self.MAIN_URL, suffix)
+
+    def multi_page_query(self, query, max_page_index):
+        page_query = self.fill_space_in_query(query, "+")
+
+        for index in range(max_page_index):
+            yield self.create_page_url(page_query, index)
