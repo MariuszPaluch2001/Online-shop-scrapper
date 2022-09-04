@@ -1,3 +1,5 @@
+from src.web_crawler.product_obj import Product
+
 class Generic_Scapper:
 
     def __init__(self) -> None:
@@ -16,13 +18,7 @@ class Generic_Scapper:
             currency = self.scrap_currency(soup)
             product_info = self.scrap_info(row)
             
-            yield {
-                "product_name" : name,
-                "link" : link,
-                "price" : price,
-                "currency" : currency,
-                "product_info" : product_info
-            }
+            yield Product(name, link, price, currency, product_info)
 
     def scrap_name(self, soup) -> str:
         raise NotImplementedError
