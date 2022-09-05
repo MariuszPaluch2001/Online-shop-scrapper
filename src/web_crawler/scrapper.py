@@ -17,8 +17,8 @@ class Generic_Scapper:
             price = self.scrap_price(row)
             currency = self.scrap_currency(soup)
             product_info = self.scrap_info(row)
-            
-            yield Product(name, link, price, currency, product_info)
+            timestamp = self.timestamp()
+            yield Product(name, link, price, currency, timestamp, product_info)
 
     def scrap_name(self, soup) -> str:
         raise NotImplementedError
@@ -34,6 +34,9 @@ class Generic_Scapper:
 
     def scrap_info(self, soup) -> tuple:
         raise NotImplementedError
+
+    def timestamp(self):
+        return
 
 class Cen_Scrapper(Generic_Scapper):
     

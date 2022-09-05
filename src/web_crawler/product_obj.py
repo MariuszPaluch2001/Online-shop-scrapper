@@ -2,12 +2,13 @@ import pprint
 
 class Product:
     
-    def __init__(self, name, link, price, currency, product_info) -> None:
+    def __init__(self, name, link, price, currency, timestamp, product_info) -> None:
         self.name = name
         self.link = link
         self.price = price
         self.currency = currency
         self.product_info = product_info
+        self.timestamp = timestamp
     
     def get_json(self):
         return  {
@@ -15,6 +16,7 @@ class Product:
                 "link" : self.link,
                 "price" : self.price,
                 "currency" : self.currency,
+                "timestamp" : self.timestamp,
                 "product_info" : self.product_info
             }
 
