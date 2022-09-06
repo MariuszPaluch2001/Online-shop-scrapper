@@ -1,3 +1,5 @@
+import datetime
+
 from src.web_crawler.product_obj import Product
 
 class Generic_Scapper:
@@ -18,7 +20,14 @@ class Generic_Scapper:
             currency = self.scrap_currency(soup)
             product_info = self.scrap_info(row)
             timestamp = self.timestamp()
-            yield Product(name, link, price, currency, timestamp, product_info)
+            yield Product(  
+                        name, 
+                        link, 
+                        price, 
+                        currency, 
+                        timestamp, 
+                        product_info
+            )
 
     def scrap_name(self, soup) -> str:
         raise NotImplementedError
@@ -36,7 +45,7 @@ class Generic_Scapper:
         raise NotImplementedError
 
     def timestamp(self):
-        return
+        return datetime.datetime.utcnow()
 
 class Cen_Scrapper(Generic_Scapper):
     

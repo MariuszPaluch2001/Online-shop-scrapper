@@ -13,6 +13,7 @@ if __name__ == "__main__":
     for url in c_url.multi_page_query(query, max_page):
         soup = get_page_html(url)
         result_gen = c_scrapper.scrap_product_info(soup)
-        db_support.insert("data", [res.get_json() for res in result_gen])
-        for res in result_gen:
-            res.print()
+        products = [res for res in result_gen]
+        db_support.insert("data", [res.get_json() for res in products])
+        for product in products:
+            product.print()
