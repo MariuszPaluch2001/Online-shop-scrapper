@@ -3,9 +3,9 @@ import os
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 
-from src.db_support_lib.db_mod import DB_Support
+from src.db_support_lib.db_mod import DB_Crud, DB_Connect
 
-class MongoDB:
+class MongoDB(DB_Connect):
 
     def __init__(self, db_name) -> None:
         load_dotenv(find_dotenv())
@@ -17,8 +17,10 @@ class MongoDB:
     def get_collection(self, collection_name):
         return self.db.get_collection(collection_name)
 
+    def get_db(self):
+        return self.db
 
-class MongoDB_Support(DB_Support):
+class MongoDB_Support(DB_Crud):
 
     def __init__(self, db : MongoDB) -> None:
         super().__init__(db)
