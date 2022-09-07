@@ -41,8 +41,5 @@ class MongoDB_Queries(DB_Querries):
     def __init__(self, crud : DB_Crud) -> None:
         super().__init__(crud)
 
-    def querry_periods(self, earlier_timestamp, later_timestamp):
-        pass
-
-    def price_range(self, lower_limit, upper_limit):
-        pass
+    def search_product(self, price_bound, time_bound, name, currency, *product_info):
+        ...

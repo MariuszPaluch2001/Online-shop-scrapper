@@ -22,11 +22,7 @@ class DB_Crud:
 class DB_Querries:
     def __init__(self, crud : DB_Crud, *args) -> None:
         self.crud = crud
+        self.current_query = None
 
-    def querry_periods(self, earlier_timestamp, later_timestamp):
+    def search_product(self, price_bound, time_bound, name, currency, *product_info):
         raise NotImplementedError
-
-    def price_range(self, lower_limit, upper_limit):
-        raise NotImplementedError
-
-    def select_by_name
