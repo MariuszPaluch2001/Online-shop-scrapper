@@ -41,5 +41,9 @@ class MongoDB_Queries(DB_Querries):
     def __init__(self, crud : DB_Crud) -> None:
         super().__init__(crud)
 
-    def search_product(self, price_bound, time_bound, name, currency, *product_info):
-        ...
+    def search_product(self, collection_name, price_bound, time_bound, name, currency, *product_info):
+        criteria = {"$and": [
+                    {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}}, 
+                    {"currency" : {"$eq" : currency}}
+                ]}
+        return self.crud.query(collection_name, criteria)
