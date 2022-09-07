@@ -18,3 +18,15 @@ class DB_Crud:
     
     def query(self, *args):
         raise NotImplementedError
+
+class DB_Querries:
+    def __init__(self, crud : DB_Crud, *args) -> None:
+        self.crud = crud
+
+    def querry_periods(self, earlier_timestamp, later_timestamp):
+        raise NotImplementedError
+
+    def price_range(self, lower_limit, upper_limit):
+        raise NotImplementedError
+
+    def select_by_name

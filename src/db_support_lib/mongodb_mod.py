@@ -3,7 +3,7 @@ import os
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 
-from src.db_support_lib.db_mod import DB_Crud, DB_Connect
+from src.db_support_lib.db_mod import DB_Crud, DB_Connect, DB_Querries
 
 class MongoDB(DB_Connect):
 
@@ -33,5 +33,16 @@ class MongoDB_Support(DB_Crud):
     def remove(self):
         raise NotImplementedError
     
-    def query(self):
-        raise NotImplementedError
+    def query(self, collection_name, query):
+        collection = self.db.get_collection(collection_name) 
+        return collection.find(query)
+
+class MongoDB_Queries(DB_Querries):
+    def __init__(self, crud : DB_Crud) -> None:
+        super().__init__(crud)
+
+    def querry_periods(self, earlier_timestamp, later_timestamp):
+        pass
+
+    def price_range(self, lower_limit, upper_limit):
+        pass
