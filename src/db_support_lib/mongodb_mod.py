@@ -30,8 +30,9 @@ class MongoDB_Support(DB_Crud):
         id = collection.insert_many(documents).inserted_ids
         return id
 
-    def remove(self):
-        raise NotImplementedError
+    def remove(self, collection_name, query):
+        collection = self.db.get_collection(collection_name) 
+        collection.delete_many(query)
     
     def query(self, collection_name, query):
         collection = self.db.get_collection(collection_name) 

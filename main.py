@@ -22,6 +22,9 @@ def test_query():
     for r in res:
         pprint.pprint(r["timestamp"].strftime('%d/%m/%y %H:%M:%S'))
 
+def test_remove():
+    db_support.remove("data", {})
+
 if __name__ == "__main__":
     max_page = 3
     query = "programowanie"
@@ -29,5 +32,6 @@ if __name__ == "__main__":
     c_scrapper = Cen_Scrapper()
     db = MongoDB("scrapper")
     db_support = MongoDB_Support(db)
-    test_scrap()
+    # test_scrap()
+    test_remove()
     test_query()
