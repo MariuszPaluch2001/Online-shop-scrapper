@@ -13,7 +13,7 @@ class DB_Crud:
     def insert(self, *args):
         raise NotImplementedError
     
-    def remove(self, *args):
+    def delete(self, *args):
         raise NotImplementedError
     
     def query(self, *args):
