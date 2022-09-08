@@ -43,7 +43,8 @@ class MongoDB_Queries(DB_Querries):
 
     def search_product(self, collection_name, price_bound, time_bound, name, currency, *product_info):
         criteria = {"$and": [
-                    {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}}, 
+                    {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}},
+                    {"timestamp": {"$gte": time_bound[0], "$lte": time_bound[1]}}, 
                     {"currency" : {"$eq" : currency}}
                 ]}
         return self.crud.query(collection_name, criteria)
