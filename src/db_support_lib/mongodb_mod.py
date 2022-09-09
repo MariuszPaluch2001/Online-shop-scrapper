@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 
 from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
@@ -41,14 +42,50 @@ class MongoDB_Support(DB_Crud):
 class MongoDB_Queries(DB_Querries):
     def __init__(self, crud : DB_Crud) -> None:
         super().__init__(crud)
+    
+    def check_price_price_bound(self, price_bound):
+        if all(map(lambda x: x is not None, price_bound)):
+            return {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}}
+        elif price_bound[0]:
+            return {"price": {"$gte": price_bound[0]}}
+        elif price_bound[1]:
+            return {"price": {"$gte": price_bound[1]}}
+
+    def check_time_bound(self, time_bound):
+        if all(map(lambda x: x is not None, time_bound)):
+            return {"timestamp": {"$gte": time_bound[0], "$lte": time_bound[1]}}
+        elif time_bound[0]:
+            return {"timestamp": {"$gte": time_bound[0]}}
+        elif time_bound[1]:
+            return {"timestamp": {"$gte": time_bound[1]}}
+
+    def get_query(self,price_bound, time_bound, name, currency, *product_info):
+        query_parts = []
+        
+        result = self.check_price_price_bound(price_bound)
+        if result is not None:
+            query_parts.append(result)
+
+        result = self.check_time_bound(time_bound)
+        if result is not None:
+            query_parts.append(result)
+
+        if name is not None:
+            query_parts.append({"product_name" : {"$regex" : name}})
+        
+        if currency is not None:
+            query_parts.append({"currency" : {"$eq" : currency}})
+
+        query = {"$and": query_parts}
+        return query
 
     def search_product(self, collection_name, price_bound, time_bound, name, currency, *product_info):
-        criteria = {"$and": [
-                    {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}},
-                    {"product_name" : {"$regex" : name}},
-                    {"timestamp": {"$gte": time_bound[0], "$lte": time_bound[1]}}, 
-                    {"currency" : {"$eq" : currency}}
-                ]}
+        
+        criteria = self.get_query(  price_bound, 
+                                    time_bound, 
+                                    name, currency, 
+                                    product_info)
+
         return self.crud.query(collection_name, criteria)
 
     def delete_product(self, collection_name, price_bound, time_bound, name, currency, *product_info):
