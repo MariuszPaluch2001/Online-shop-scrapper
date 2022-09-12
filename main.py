@@ -17,7 +17,7 @@ def test_query():
     mongo_q = MongoDB_Queries(db_support)
     date1 = datetime.strptime('6/9/22 12:00:00', '%d/%m/%y %H:%M:%S')
     date2 = datetime.strptime('10/9/22 16:00:00', '%d/%m/%y %H:%M:%S')
-    res = mongo_q.search_product("data", (0, 10000), (date1, date2), "Love", "PLN")
+    res = mongo_q.search_product("data", (0, 10000), (date1, date2), "Czysty kod.", "PLN", ("Wydawnictwo: ", "Helion"))
     for r in res:
         print(r["product_name"])
 

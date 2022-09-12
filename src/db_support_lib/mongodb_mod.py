@@ -59,6 +59,13 @@ class MongoDB_Queries(DB_Querries):
         elif time_bound[1]:
             return {"timestamp": {"$gte": time_bound[1]}}
 
+    def additional_fields_parser(self, additional_info):
+        for info in additional_info:
+            #@TO DO
+            #Code shouldn't distinguish between small and big letter
+            #Code could match query's string part.
+            yield { "product_info": { "$elemMatch": { info[0] : info[1] } } }
+
     def get_query(self,price_bound, time_bound, name, currency, *product_info):
         query_parts = []
         
@@ -76,6 +83,10 @@ class MongoDB_Queries(DB_Querries):
         if currency is not None:
             query_parts.append({"currency" : {"$eq" : currency}})
 
+        result = self.additional_fields_parser(*product_info)
+        if result is not None:
+            for r in result:
+                query_parts.append(r)
         query = {"$and": query_parts}
         return query
 
@@ -83,16 +94,18 @@ class MongoDB_Queries(DB_Querries):
         
         criteria = self.get_query(  price_bound, 
                                     time_bound, 
-                                    name, currency, 
-                                    product_info)
+                                    name, 
+                                    currency, 
+                                    product_info
+                                )
 
         return self.crud.query(collection_name, criteria)
 
     def delete_product(self, collection_name, price_bound, time_bound, name, currency, *product_info):
-        criteria = {"$and": [
-                    {"price": {"$gte": price_bound[0], "$lte": price_bound[1]}},
-                    {"product_name" : {"$regex" : name}},
-                    {"timestamp": {"$gte": time_bound[0], "$lte": time_bound[1]}}, 
-                    {"currency" : {"$eq" : currency}}
-                ]}
+        criteria = self.get_query(  price_bound, 
+                                    time_bound, 
+                                    name, 
+                                    currency, 
+                                    product_info
+                                )
         return self.crud.delete(collection_name, criteria)
