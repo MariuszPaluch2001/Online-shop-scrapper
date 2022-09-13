@@ -1,6 +1,7 @@
 import datetime
 
 from src.web_crawler.product_obj import Product
+from src.web_crawler.data_cleaning import convert_sting_to_int, clean_string_data
 
 class Generic_Scapper:
 
@@ -56,7 +57,7 @@ class Cen_Scrapper(Generic_Scapper):
         return soup.find_all("div", {"class": "cat-prod-row__content"})
 
     def scrap_name(self, soup) -> str:
-        return soup.find("strong", {"class" : "cat-prod-row__name"}).text.strip()
+        return clean_string_data(soup.find("strong", {"class" : "cat-prod-row__name"}).text)
 
     def cen_link_find(self, soup):
         res = soup.find("a", {"class" : "go-to-product js_conv js_clickHash js_seoUrl"})
@@ -76,7 +77,7 @@ class Cen_Scrapper(Generic_Scapper):
         return res["href"]
 
     def scrap_price(self, soup) -> str:
-        return soup.find("span", {"class" : "value"}).text
+        return convert_sting_to_int(soup.find("span", {"class" : "value"}).text)
 
     def scrap_currency(self, *args) -> str:
         return "PLN"
@@ -90,7 +91,7 @@ class Cen_Scrapper(Generic_Scapper):
         res = res.find_all("li")
         for elem in res:
             children = tuple(elem.children)
-            yield {children[0] : children[1].text}
+            yield {clean_string_data(children[0]) : clean_string_data(children[1].text)}
 
     def scrap_info(self, soup) -> tuple:
         return tuple(self.scrap_info_gen(soup))

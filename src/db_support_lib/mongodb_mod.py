@@ -61,10 +61,7 @@ class MongoDB_Queries(DB_Querries):
 
     def additional_fields_parser(self, additional_info):
         for info in additional_info:
-            #@TO DO
-            #Code shouldn't distinguish between small and big letter
-            #Code could match query's string part.
-            yield { "product_info": { "$elemMatch": { info[0] : info[1] } } }
+            yield { "product_info": { "$elemMatch": { info[0].upper() : {"$regex" : info[1].upper()} } } }
 
     def get_query(self,price_bound, time_bound, name, currency, *product_info):
         query_parts = []
@@ -78,7 +75,7 @@ class MongoDB_Queries(DB_Querries):
             query_parts.append(result)
 
         if name is not None:
-            query_parts.append({"product_name" : {"$regex" : name}})
+            query_parts.append({"product_name" : {"$regex" : name.upper()}})
         
         if currency is not None:
             query_parts.append({"currency" : {"$eq" : currency}})

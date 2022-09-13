@@ -4,7 +4,7 @@ from src.web_crawler.scrapper import Cen_Scrapper
 from src.db_support_lib.mongodb_mod import MongoDB, MongoDB_Support, MongoDB_Queries
 
 from datetime import datetime
-import pprint
+
 def test_scrap():
     for url in c_url.multi_page_query(query, max_page):
         soup = get_page_html(url)
@@ -16,8 +16,8 @@ def test_scrap():
 def test_query():
     mongo_q = MongoDB_Queries(db_support)
     date1 = datetime.strptime('6/9/22 12:00:00', '%d/%m/%y %H:%M:%S')
-    date2 = datetime.strptime('10/9/22 16:00:00', '%d/%m/%y %H:%M:%S')
-    res = mongo_q.search_product("data", (0, 10000), (date1, date2), "Czysty kod.", "PLN", ("Wydawnictwo: ", "Helion"))
+    date2 = datetime.strptime('15/9/22 16:00:00', '%d/%m/%y %H:%M:%S')
+    res = mongo_q.search_product("data", (0, 10000), (date1, date2), "powerbank", "PLN")
     for r in res:
         print(r["product_name"])
 
@@ -26,7 +26,7 @@ def test_remove():
 
 if __name__ == "__main__":
     max_page = 3
-    query = "figurka"
+    query = "Powerbank"
     c_url = Cen_URL()
     c_scrapper = Cen_Scrapper()
     db = MongoDB("scrapper")
