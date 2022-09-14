@@ -21,5 +21,10 @@ class Product:
             }
 
     def print(self):
-        pprint.pprint(self.get_json())
+        print(f"Product name: {self.name}")
+        print(f"Price: {self.price} {self.currency}")
+        print(f"Link: {self.link}")
+        print(f"Timestamp: {str(self.timestamp)}")
+        pprint.pprint(self.product_info)
+        print("-"*50)
 
