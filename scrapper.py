@@ -1,6 +1,7 @@
 from src.web_crawler.url import Cen_URL
 from src.web_crawler.scrapper import Cen_Scrapper
 from src.db_support_lib.mongodb_mod import MongoDB, MongoDB_Support
+
 from src.web_crawler.scrap import scrap
 
 import argparse

@@ -49,7 +49,7 @@ class MongoDB_Queries(DB_Querries):
         elif price_bound[0]:
             return {"price": {"$gte": price_bound[0]}}
         elif price_bound[1]:
-            return {"price": {"$gte": price_bound[1]}}
+            return {"price": {"$lte": price_bound[1]}}
 
     def check_time_bound(self, time_bound):
         if all(map(lambda x: x is not None, time_bound)):
@@ -57,7 +57,7 @@ class MongoDB_Queries(DB_Querries):
         elif time_bound[0]:
             return {"timestamp": {"$gte": time_bound[0]}}
         elif time_bound[1]:
-            return {"timestamp": {"$gte": time_bound[1]}}
+            return {"timestamp": {"$lte": time_bound[1]}}
 
     def additional_fields_parser(self, additional_info):
         for info in additional_info:
