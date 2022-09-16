@@ -16,5 +16,5 @@ def query_search(query_obj : DB_Querries, table_name, price_interval, date_inter
 
     return products
 
-def remove_from_db():
-    ...
+def delete_from_db(query_obj : DB_Querries, table_name, price_interval, date_interval, product_name, currency):
+    query_obj.delete_product(table_name, price_interval, date_interval, product_name, currency)

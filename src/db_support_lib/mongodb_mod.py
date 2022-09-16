@@ -84,6 +84,10 @@ class MongoDB_Queries(DB_Querries):
         if result is not None:
             for r in result:
                 query_parts.append(r)
+        
+        if not query_parts:
+            return {}
+        
         query = {"$and": query_parts}
         return query
 

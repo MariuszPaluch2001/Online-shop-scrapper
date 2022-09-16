@@ -26,3 +26,6 @@ class DB_Querries:
 
     def search_product(self, price_bound, time_bound, name, currency, *product_info):
         raise NotImplementedError
+
+    def delete_product(self, price_bound, time_bound, name, currency, *product_info):
+        raise NotImplementedError

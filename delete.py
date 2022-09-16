@@ -1,15 +1,15 @@
 from src.db_support_lib.mongodb_mod import MongoDB, MongoDB_Support, MongoDB_Queries
-from src.db_support_lib.top_utils import query_search
+from src.db_support_lib.top_utils import delete_from_db
 
 from datetime import datetime
 import argparse
 
 """
 
-    Query script to run without any GUI.
+    Deleting script to run without any GUI.
     If you want more info about args type into terminal:
 
-    python query.py --help
+    python delete.py --help
 
 """
 
@@ -25,10 +25,8 @@ if __name__ == "__main__":
                     help=R"Ending date in date range. Date format: 'd/m/y H:M:S'")
     parser.add_argument("-q", "--query", type=str, default= None,
                     help="Name of product to query")
-    parser.add_argument("-c", "--currency", type=str, default = "PLN",
+    parser.add_argument("-c", "--currency", type=str, default = None,
                     help="Currency of product in query")
-    parser.add_argument("--do-print", default=False, action="store_true", 
-                    help = "Print product info to terminal.")
     
     args = parser.parse_args()
 
@@ -41,11 +39,12 @@ if __name__ == "__main__":
         date_min = datetime.strptime(args.date_min, '%d/%m/%y %H:%M:%S')
     else:
         date_min = None
+
     if args.date_max is not None:
         date_max = datetime.strptime(args.date_max, '%d/%m/%y %H:%M:%S')
     else:
         date_max = None
-
-    query_search(mongo_q, "data", (args.price_min,args.price_max), (date_min, date_max), 
-                args.query, args.currency, args.do_print
+        
+    delete_from_db(mongo_q, "data", (args.price_min,args.price_max), (date_min, date_max), 
+                args.query, args.currency
     )
